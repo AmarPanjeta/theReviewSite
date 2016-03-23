@@ -157,7 +157,8 @@
     font-size: 25px;
   }
   .lista-ikonice>li:hover{
-    list-style-image: url('http://www.mediaevent.de/css/img/listen12.png');
+    /*list-style-image: url('http://www.mediaevent.de/css/img/listen12.png');*/
+    list-style-image: url('Slike/ul_3_list_style_h.png');
     list-style-position: inside;
     color: #4B3621;
     font-size: 35px;
@@ -230,6 +231,31 @@
     border-radius: 5px;
     border: 1px solid black;
   }
+  .grupa-unos>input[type="email"]{
+    padding: 5px;
+    margin: auto;
+    position: relative;
+    width: 98%;
+    border-radius: 5px;
+    border: 1px solid black;
+  }
+  .grupa-unos>input[type="tel"]{
+    padding: 5px;
+    margin: auto;
+    position: relative;
+    width: 98%;
+    border-radius: 5px;
+    border: 1px solid black;
+  }
+  .grupa-unos>input[type="range"]{
+    padding: 5px;
+    margin: auto;
+    position: relative;
+    width: 98%;
+    border-radius: 5px;
+    background-color: white;
+    border: 1px solid black;
+  }
   .grupa-unos>textarea{
     width: 99%;
     border-radius: 5px;
@@ -287,4 +313,8 @@
 }
 .red-element:hover img {
   transform: scale(1.15);
+}
+
+.autovisina{
+  height: auto;
 }

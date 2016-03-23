@@ -47,7 +47,7 @@
           </nav>
         </div>
 
-      <div class="glavni-citav">
+      <div class="glavni-citav autovisina">
         <h1>Tabela</h1>
         <form class="forma-kontakt" action="index.html" method="get">
 
@@ -58,14 +58,24 @@
 
           <div class="grupa-unos">
             <label>Email</label>
-            <input type="text" name="name" value=""><br>
+            <input type="email" name="name" value=""><br>
+          </div>
+
+          <div class="grupa-unos">
+            <label>Telefon</label>
+            <input type="tel" name="name" value=""><br>
+          </div>
+
+          <div class="grupa-unos">
+            <label>Ocjena stranice (Sto je vise desno, bolja stranica)</label>
+            1<input type="range" name="name" value="" min="1" max="5">5<br>
           </div>
 
           <div class="grupa-unos">
             <label>Spol</label>
             <div class="radio-okvir">
-              <input type="radio" name="gender" value="male" checked> Male
-              <input type="radio" name="gender" value="female"> Female
+              <input type="radio" name="gender" value="male" checked> Muski
+              <input type="radio" name="gender" value="female"> Zenski
             </div>
           </div>
 
