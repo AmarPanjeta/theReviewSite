@@ -1,0 +1,85 @@
+
+.baza{
+  background-color: yellow;
+  border: 3px solid black;
+  height: 200px;
+  width: 200px;
+  margin: auto;
+  -ms-transform: rotate(30deg);
+  -webkit-transform: rotate(20deg);
+  -moz-transform: rotate(20deg);
+  transform: rotate(45deg);
+  border-radius: 25%;
+  margin-top: 23px;
+}
+
+.most{
+  position: absolute;
+  background-color: black;
+  height: 30px;
+  width: 30px;
+  margin-left: 85px;
+  margin-top: 85px;
+  transform: rotate(-45deg);
+  border-radius: 33%;
+}
+.most1{
+  position: absolute;
+  background-color: yellow;
+  height: 30px;
+  width: 30px;
+  margin-top: 12px;
+  border-radius: 33%;
+}
+.okvir{
+  position: absolute;
+  background-color: transparent;
+
+  height: 75px;
+  width: 70px;
+  border: 5px solid black;
+  border-radius: 50%;
+  z-index: 1;
+  transform: rotate(-45deg);
+}
+.desno{
+  margin-left: 97px;
+  margin-top: 18px;
+}
+.lijevo{
+  margin-left: 21px;
+  margin-top: 93px;
+}
+.rub{
+  position: absolute;
+  background-color: black;
+  height: 15px;
+  width: 15px;
+  border-radius: 3px;
+  transform: rotate(-45deg);
+}
+.gumica{
+  position: absolute;
+  background-color: black;
+  height: 15px;
+  width: 3px;
+  border-radius: 50%;
+}
+#lijevi-rub{
+  margin-top: 24px;
+  margin-left: 162px;
+}
+#desni-rub{
+  margin-top: 160px;
+  margin-left: 23px;
+}
+#lijeva-gumica{
+  margin-top: 82px;
+  margin-left: 121px;
+  transform: rotate(-60deg);
+}
+#desna-gumica{
+  margin-top: 114px;
+  margin-left: 88px;
+  transform: rotate(-30deg);
+}
