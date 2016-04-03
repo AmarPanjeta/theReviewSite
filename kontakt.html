@@ -16,6 +16,8 @@
   -->
   </head>
   <body>
+
+    <script src="validacije.js"></script>
 <!--                     LOGO                     -->
     <div class="baza">
       <div class="most">
@@ -53,17 +55,25 @@
 
           <div class="grupa-unos">
             <label>Ime i prezime</label>
-            <input type="text" name="name" value=""><br>
+            <input id="ime_polje" type="text" name="name" value="" onkeyup="validiraj_ime(this.value)"><br>
           </div>
 
           <div class="grupa-unos">
             <label>Email</label>
-            <input type="email" name="name" value=""><br>
+            <input id="mail_polje" type="email" name="name" value="" onkeyup="validiraj_mail(this.value)"><br>
+          </div>
+
+          <div class="grupa-unos">
+            <label>Grad</label>
+            <select onchange="izmjeniGrad()">
+              <option>Sarajevo</option>
+              <option>Zenica</option>
+            </select><br>
           </div>
 
           <div class="grupa-unos">
             <label>Telefon</label>
-            <input type="tel" name="name" value=""><br>
+            <input id="telefon_polje" type="tel" name="name" value="" placeholder="033/xxx-xxx" onkeyup="validirajTelefon(this.value)"><br>
           </div>
 
           <div class="grupa-unos">
