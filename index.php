@@ -104,9 +104,11 @@ session_start();
       fclose($file);
       if(isset($_REQUEST['sortiranje']) && $_REQUEST['sortiranje']=="abc") usort($novosti,"poredjenjeNaslova");
       else usort($novosti,"poredjenjeDatuma");
+        $otvoreno=false;
         for($i=0;$i<count($novosti);$i++){
             if($i%3==0){
               print '<div class="red">';
+              $otvoreno = true;
             }
             $date = new DateTime($novosti[$i][2]);
             $datestring = $date->format('Y-m-d H:i:s');
@@ -122,7 +124,11 @@ session_start();
 
             if($i%3==2){
               print "</div>";
+              $otvoreno = false;
             }
+        }
+        if($otvoreno){
+          print "</div>";
         }
       }
      ?>

@@ -9,22 +9,44 @@ function validirajImeAutora(validiraj){
 }
 
 document.getElementById('dodaj').addEventListener("click", function(event){
+    validno = true;
     event.preventDefault();
     title=document.getElementById('naslov_polje').value;
     url=document.getElementById('url_polje').value;
     ccode=document.getElementById('drzava_polje').value;
     telephone=document.getElementById('telefon_polje').value;
     author=document.getElementById("autor_polje").value;
+
+    if(title==""){
+      document.getElementById("poruka").innerHTML = "Potrebno je unijeti naslov!";
+      document.getElementById('poruka').style.display="block";
+      return;
+    }
+    else if(author==""){
+      document.getElementById("poruka").innerHTML = "Potrebno je unijeti ime autora";
+      document.getElementById('poruka').style.display="block";
+      return;
+    }
+    else if(url==""){
+      document.getElementById("poruka").innerHTML = "Potrebno je unijeti url slike!";
+      document.getElementById('poruka').style.display="block";
+      return;
+    }
+    validno = drzavaPozivniValidacija();
+    if(!validno){
+      return;
+    }
+
     var con = new XMLHttpRequest();
     con.onreadystatechange = function() {
     if (con.readyState == 4 && con.status == 200) {
      document.getElementById("poruka").innerHTML = con.responseText;
      console.log(con.responseText);
      document.getElementById('poruka').style.display="block";
-    }
-  };
-  con.open("POST", "dodavanjeservis.php?title="+title+"&url="+url+"&ccode="+ccode+"&telephone="+telephone+"&author="+author, true);
-  con.send();
+      }
+    };
+    con.open("POST", "dodavanjeservis.php?title="+title+"&url="+url+"&ccode="+ccode+"&telephone="+telephone+"&author="+author, true);
+    con.send();
 });
 
 document.getElementById('poruka').style.display="none";
@@ -64,6 +86,7 @@ function drzavaPozivniValidacija(){
           if(validno) {
             document.getElementById('poruka').innerHTML="";
             document.getElementById('poruka').style.display="none";
+            validacija = true;
           }
           else{
             document.getElementById('poruka').innerHTML="Broj telefona i kod drzave se ne poklapaju";
@@ -71,15 +94,23 @@ function drzavaPozivniValidacija(){
             validacija=false;
           }
         }
-        else validacija = false;
+        else {
+          document.getElementById('poruka').innerHTML="Unijeli ste kod nepostojece drzave";
+          document.getElementById('poruka').style.display="block";
+          validacija = false;
+        }
       }
-      else validacija = false;
+      else {
+        document.getElementById('poruka').innerHTML="";
+        document.getElementById('poruka').style.display="block";
+        validacija = false;
+      }
     }
-    con.open("GET","https://restcountries.eu/rest/v1/alpha?codes="+dvoslovni,true);
+    con.open("GET","https://restcountries.eu/rest/v1/alpha?codes="+dvoslovni,false);
     con.send();
   }
   else{
-    document.getElementById('poruka').innerHTML="";
+    document.getElementById('poruka').innerHTML="Niste unijeli kod drzave";
     document.getElementById('poruka').style.display="";
     validacija = false;
   }
