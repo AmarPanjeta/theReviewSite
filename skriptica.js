@@ -1,7 +1,7 @@
 window.onload=function () {
-  postavljanjeDatuma=[prijeNSekundi(11),prijeNMinuta(1),prijeNMinuta(11),prijeNSati(1),prijeNSati(5),prijeNSati(22),prijeNDana(1),prijeNDana(7),prijeNDana(28)]
+/*  postavljanjeDatuma=[prijeNSekundi(11),prijeNMinuta(1),prijeNMinuta(11),prijeNSati(1),prijeNSati(5),prijeNSati(22),prijeNDana(1),prijeNDana(7),prijeNDana(28)]
   elementi=document.getElementsByClassName('red-element');
-  for(var i=0;i<elementi.length;i++) elementi[i].id="clanak_"+postavljanjeDatuma[i];
+  for(var i=0;i<elementi.length;i++) elementi[i].id="clanak_"+postavljanjeDatuma[i];*/
   postaviDatume();
 }
 

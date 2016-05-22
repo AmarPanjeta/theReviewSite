@@ -18,6 +18,8 @@ body{
   padding-top: 10px;
   padding-bottom: 10px;
   margin: 40px 0px;
+  margin-top: 40px;
+  margin-bottom: 15px;
 
   /* okvir */
   /*border-top: 1px solid  #654321; /* sepia */
@@ -136,7 +138,7 @@ to   { opacity: 1; }
   border-radius: 5px;
   border: 1px solid black;
 }
-.glavni-citav>h1{
+.glavni-citav>h1,.glavni-citav>h3{
   text-align: center;
 }
 .lista-ikonice{
@@ -234,7 +236,7 @@ tr a{
   border: 1px solid black;
 }
 
-.grupa-unos>input[type="text"]{
+.grupa-unos>input[type="text"],.grupa-unos>input[type="password"]{
   padding: 5px;
   margin: auto;
   position: relative;
@@ -336,6 +338,8 @@ color: yellow;
 
 .filter-stranice ul{
 padding-left: 0px;
+margin-top: 5px;
+margin-bottom: 5px;
 display: inline-block;
 }
 
@@ -344,6 +348,11 @@ display: inline-block;
 font-size: 15px;
 margin-right: 5px;
 color: yellow;
+}
+
+.filter-stranice a{
+  color: yellow;
+  text-decoration: none;
 }
 
 .filter-stranice li:hover{

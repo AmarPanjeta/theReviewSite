@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php
+session_start();
+ ?>
 <html>
   <head>
     <meta charset="utf-8">
@@ -41,10 +44,19 @@
 <div class="stranica">
     <div class="navpozicija">
       <nav class="navigacija">
-      <a href="index.html">NASLOVNICA</a>
-      <a href="tabela.html">Tabela</a>
-      <a href="kontakt.html">Kontakt</a>
-      <a href="linkovi.html">Linkovi</a>
+      <a href="index.php">NASLOVNICA</a>
+      <a href="tabela.php">Tabela</a>
+      <a href="kontakt.php">Kontakt</a>
+      <a href="linkovi.php">Linkovi</a>
+      <?php
+        if(isset($_SESSION['user'])){
+          print '<a href="dodavanje.php?action=logout">Nova novost</a>';
+          print '<a href="login.php?action=logout">Logout</a>';
+        }
+        else{
+          print '<a href="login.php">Login</a>';
+        }
+       ?>
       </nav>
     </div>
   <div class="filter-stranice">

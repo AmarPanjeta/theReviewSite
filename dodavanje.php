@@ -1,4 +1,12 @@
-<!DOCTYPE html>
+<?php
+session_start();
+if(!isset($_SESSION['user'])){
+  header('Location: ' . "index.php", true, 303);
+  die();
+}
+
+ ?>
+
 <html>
   <head>
     <meta charset="utf-8">
@@ -17,7 +25,7 @@
   </head>
   <body>
 
-    <script src="validacije.js"></script>
+
 <!--                     LOGO                     -->
     <div class="baza">
       <div class="most">
@@ -42,64 +50,61 @@
     <div class="stranica">
         <div class="navpozicija">
           <nav class="navigacija">
-          <a href="index.html">NASLOVNICA</a>
-          <a href="tabela.html">Tabela</a>
-          <a href="kontakt.html">Kontakt</a>
-          <a href="linkovi.html">Linkovi</a>
+            <a href="index.php">NASLOVNICA</a>
+            <a href="tabela.php">Tabela</a>
+            <a href="kontakt.php">Kontakt</a>
+            <a href="linkovi.php">Linkovi</a>
+            <?php
+              if(isset($_SESSION['user'])){
+                print '<a href="dodavanje.php">Nova novost</a>';
+                print '<a href="login.php?action=logout">Logout</a>';
+              }
+              else{
+                print '<a href="login.php">Login</a>';
+              }
+             ?>
           </nav>
         </div>
 
       <div class="glavni-citav autovisina">
-        <h1>Tabela</h1>
-        <form class="forma-kontakt" action="index.html" method="get">
+        <h1>Dodavanje novosti</h1>
+        <h3 id="poruka">Poruka</h3>
+        <form class="forma-kontakt" action="dodavanjeservis.php" method="post">
 
           <div class="grupa-unos">
-            <label>Ime i prezime</label>
-            <input id="ime_polje" type="text" name="name" value="" onkeyup="validiraj_ime(this.value)"><br>
+            <label>Naslov novosti</label>
+            <input id="naslov_polje" type="text" name="title" value=""><br>
           </div>
 
           <div class="grupa-unos">
-            <label>Email</label>
-            <input id="mail_polje" type="email" name="name" value="" onkeyup="validiraj_mail(this.value)"><br>
+            <label>Autor</label>
+            <input id="autor_polje" type="text" name="author" value=""><br>
           </div>
 
           <div class="grupa-unos">
-            <label>Grad</label>
-            <select onchange="izmjeniGrad()">
-              <option>Sarajevo</option>
-              <option>Zenica</option>
-            </select><br>
+            <label>URL slike:</label>
+            <input id="url_polje" type="text" name="url" value=""><br>
+            <small>*Napomena: Preporucuje se da su slike velicine 400x270 zbog ispravnog prikaza i crno-bijele zbog konzistencije sa dizajnom</small>
           </div>
 
           <div class="grupa-unos">
-            <label>Telefon</label>
-            <input id="telefon_polje" type="tel" name="name" value="" placeholder="033/xxx-xxx" onkeyup="validirajTelefon(this.value)"><br>
+            <label>Drzava(dvoslovni kod):</label>
+            <input id="drzava_polje" type="text" name="ccode"  onblur="drzavaPozivniValidacija()"><br>
           </div>
 
           <div class="grupa-unos">
-            <label>Ocjena stranice (Sto je vise desno, bolja stranica)</label>
-            <input type="range" name="name" min="1" max="5"><br>
+            <label>Telefon:</label>
+            <input id="telefon_polje" type="text" name="telephone" value="" onblur="drzavaPozivniValidacija()"><br>
           </div>
 
-          <div class="grupa-unos">
-            <label>Spol</label>
-            <div class="radio-okvir">
-              <input type="radio" name="gender" value="male" checked> Muski
-              <input type="radio" name="gender" value="female"> Zenski
-            </div>
-          </div>
-
-          <div class="grupa-unos">
-            <label>Poruka</label>
-            <textarea rows="6" cols="40"></textarea>
-          </div>
-
-          <input class="dugme" type="submit" value="Posalji">
+          <input id="dodaj" class="dugme" type="submit" value="Dodaj">
           <div class="cistimo-float"></div>
         </form>
       </div>
 
     </div>
-
+    <script src="validacijenovost.js"></script>
   </body>
 </html>
+
+<!-- onkeyup="telefonValidacija(this.value)"
