@@ -50,8 +50,12 @@ session_start();
       <a href="linkovi.php">Linkovi</a>
       <?php
         if(isset($_SESSION['user'])){
-          print '<a href="dodavanje.php?action=logout">Nova novost</a>';
+          print '<a href="dodavanje.php">Nova novost</a>';
+          print '<a href="mojenovosti.php">Moje novosti <span id="broj-novosti"></span></a>';
+          if($_SESSION['admin']==1) print '<a href="panel.php">Panel</a>';
+          else print '<a href="promjenasifre.php">Promjena sifre</a>';
           print '<a href="login.php?action=logout">Logout</a>';
+
         }
         else{
           print '<a href="login.php">Login</a>';
@@ -132,9 +136,57 @@ session_start();
         }
       }
      ?>
+     <?php
+        $veza = new PDO("mysql:dbname=spirala4;host=localhost;charset=utf8", "spirala4", "spirala4");
+        $veza->exec("set names utf8");
+        $rezultat = null;
+        if(isset($_REQUEST['autor']) && is_numeric($_REQUEST['autor'])) $rezultat = $veza -> query("SELECT id, autorid, naslov, url, datum FROM novost WHERE autorid=".$_REQUEST['autor']);
+        else if(isset($_REQUEST['sortiranje']) && $_REQUEST['sortiranje']=="abc")$rezultat = $veza -> query("SELECT id, autorid, naslov, url, datum FROM novost ORDER BY naslov asc");
+        else $rezultat = $veza -> query("SELECT id, autorid, naslov, url, datum FROM novost");
+
+        $brojac = 0;
+        $otvoreno = false;
+        foreach ($rezultat as $novost) {
+          $upitautor=$veza -> query("SELECT imeprezime from korisnik where id=".$novost['autorid'].";");
+          $autor=$upitautor ->fetch();
+          if($brojac%3==0){
+            print '<div class="red">';
+            $otvoreno = true;
+          }
+          $date = $novost['datum'];
+          //$datestring = $date->format('Y-m-d H:i:s');
+          $datestring = str_replace(" ","T",$date);
+          print  '<div id="clanak_'.$datestring.'" class="red-element" onclick="location.href=\'novost.php?id='.$novost['id'].'\';" style="cursor: pointer;">';
+          print    '<img src="'.$novost['url'].'" alt="kritika" />';
+          print    '<p>';
+          print     $novost['naslov'].' - '.$autor['imeprezime']; // Nedjelja navecer - B. Krsulovic
+          print    '</p>';
+          print    '<p class="vrijeme-objave">';
+          print    '</p>';
+          print  '</div>';
+
+          if($brojac%3==2){
+            print "</div>";
+            $otvoreno = false;
+          }
+          $brojac++;
+        }
+        if($otvoreno){
+          print "</div>";
+        }
+      ?>
   </div>
 
 </div>
-
+  <script src="js/ajaxkomentari.js"></script>
+  <?php
+  if(isset($_SESSION['id'])){
+    print "<script>";
+    print "window.setInterval(function(){
+      brojkomentara(".$_SESSION['id'].");
+    },350)";
+    print "</script>";
+  }
+   ?>
   </body>
 </html>

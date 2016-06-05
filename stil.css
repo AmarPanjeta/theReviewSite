@@ -178,6 +178,9 @@ table, th, td {
     border: 1px solid black;
 }
 
+table{
+  margin-bottom: 45px;
+}
 th, td{
   text-align: center;
   vertical-align: middle;
@@ -274,7 +277,8 @@ tr a{
   border-radius: 5px;
   border: 1px solid black;
   font-family: 'Josefin Sans', sans-serif;
-  overflow: hidden;;
+  overflow: hidden;
+  resize: none;
 }
 .dugme{
 background-color: lightgray;
@@ -328,6 +332,12 @@ text-align: center;
 transform: scale(1.15);
 }
 
+.red-element>a{
+  text-decoration: none;
+  color: inherit;
+  font-family: inherit;
+}
+
 .autovisina{
 height: auto;
 }
@@ -357,4 +367,64 @@ color: yellow;
 
 .filter-stranice li:hover{
 text-decoration: underline;
+}
+
+.novost-okvir{
+  width: 80%;
+  border: solid black 1px;
+  margin-left: 10%;
+  height: auto;
+  border-radius: 5px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.novost-okvir img{
+  border: solid black 1px;
+  border-radius: 3px;
+  width: 35%;
+  max-width: 35%;
+  height: auto;
+  display: inline-block;
+}
+
+.novost-autor-info{
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.odvajac{
+  width: 100%;
+  display: flex;
+  border-top: dashed black 1px;
+  margin: 10px 0px;
+}
+
+[id*="odgovori_"] {
+  display: none;
+}
+
+[id*="sakrij_"] {
+  display: none;
+}
+
+
+.prikazi-komentare{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.dugme-obrisi{
+background-color: lightgray;
+border: 1px solid black;
+border-radius: 50%;
+}
+
+#broj-novosti{
+  background: yellow none repeat scroll 0% 0%;
+color: black;
+padding: 2px;
+border-radius: 1px;
 }

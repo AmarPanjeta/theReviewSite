@@ -11,19 +11,14 @@ function validirajImeAutora(validiraj){
 document.getElementById('dodaj').addEventListener("click", function(event){
     validno = true;
     event.preventDefault();
-    title=document.getElementById('naslov_polje').value;
+    naslov=document.getElementById('naslov_polje').value;
     url=document.getElementById('url_polje').value;
-    ccode=document.getElementById('drzava_polje').value;
-    telephone=document.getElementById('telefon_polje').value;
-    author=document.getElementById("autor_polje").value;
+    tekst=document.getElementById('tekst_polje').value;
+    komentari=1;
+    if(!(document.getElementById('komentari_polje').checked)){komentari=0;} 
 
-    if(title==""){
+    if(naslov==""){
       document.getElementById("poruka").innerHTML = "Potrebno je unijeti naslov!";
-      document.getElementById('poruka').style.display="block";
-      return;
-    }
-    else if(author==""){
-      document.getElementById("poruka").innerHTML = "Potrebno je unijeti ime autora";
       document.getElementById('poruka').style.display="block";
       return;
     }
@@ -45,7 +40,7 @@ document.getElementById('dodaj').addEventListener("click", function(event){
      document.getElementById('poruka').style.display="block";
       }
     };
-    con.open("POST", "dodavanjeservis.php?title="+title+"&url="+url+"&ccode="+ccode+"&telephone="+telephone+"&author="+author, true);
+    con.open("POST", "dodavanjeservis.php?naslov="+naslov+"&url="+url+"&tekst="+tekst+"&komentari="+komentari, true);
     con.send();
 });
 

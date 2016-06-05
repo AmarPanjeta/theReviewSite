@@ -1,12 +1,25 @@
 <?php
 session_start();
-if(!isset($_SESSION['user'])){
+if(!isset($_SESSION['user']) || !isset($_SESSION['admin']) || $_SESSION['admin']!=1){
   header('Location: ' . "index.php", true, 303);
   die();
 }
 
  ?>
-
+<?php
+  if(isset($_REQUEST['obrisi']) && $_REQUEST['obrisi']!=1){
+    $veza = new PDO("mysql:dbname=spirala4;host=localhost;charset=utf8", "spirala4", "spirala4");
+    $veza->exec("set names utf8");
+    $upitnovosti = $veza -> query("SELECT id, autorid FROM novost where autorid=".$_REQUEST['obrisi']);
+    $novosti=$upitnovosti->fetchAll();
+    foreach ($novosti as $novost) {
+      $upitbrisanjeodgovori = $veza -> query ("DELETE FROM komentar WHERE novostid=".$novost['id']." AND odgovornakomentar IS NOT NULL");
+      $upitbrisanjeokomentari = $veza -> query ("DELETE FROM komentar WHERE novostid=".$novost['id']." AND odgovornakomentar IS NULL");
+    }
+    $upitbrisanjenovosti = $veza -> query ("DELETE FROM novost WHERE autorid=".$_REQUEST['obrisi']);
+    $upitbrisanjekorisnik = $veza -> query ("DELETE FROM korisnik WHERE id=".$_REQUEST['obrisi']);
+  }
+ ?>
 <html>
   <head>
     <meta charset="utf-8">
@@ -68,49 +81,48 @@ if(!isset($_SESSION['user'])){
              ?>
           </nav>
         </div>
-
+      <div class="filter-stranice">
+        <span>Opcije:</span>
+        <ul>
+          <li><a href="panel.php">Korisnici</a></li>
+          <li><a href="novikorisnik.php">Dodavanje korisnika</a></li>
+          <li><a href="panelnovosti.php">Novosti</a></li>
+          <li><a href="panelkomentari.php">Komentari</a></li>
+        </ul>
+      </div>
       <div class="glavni-citav autovisina">
-        <h1>Dodavanje novosti</h1>
-        <h3 id="poruka">Poruka</h3>
-        <form class="forma-kontakt" action="dodavanjeservis.php" method="post">
+        <h1>Admin panel</h1>
+        <h3>Korisnici </h3>
+        <?php
 
-          <div class="grupa-unos">
-            <label>Naslov novosti</label>
-            <input id="naslov_polje" type="text" name="title" value=""><br>
-          </div>
+          print "<table>";
+          print "<tr>";
+          print "<th>ID</th>";
+          print "<th>Username</th>";
+          print "<th>Admin</th>";
+          print "<th>Ime i prezime</th>";
+          print "<th>Datum rodjenja</th>";
+          print "<th>Opcije</th>";
 
-          <div class="grupa-unos">
-            <label>URL slike:</label>
-            <input id="url_polje" type="text" name="url" value=""><br>
-            <small>*Napomena: Preporucuje se da su slike velicine 400x270 zbog ispravnog prikaza i crno-bijele zbog konzistencije sa dizajnom</small>
-          </div>
+          print "</tr>";
+          $veza = new PDO("mysql:dbname=spirala4;host=localhost;charset=utf8", "spirala4", "spirala4");
+          $veza->exec("set names utf8");
+          $rezultat = $veza ->query("SELECT id,username, password, admin, imeprezime, datumrodjenja from korisnik");
 
-          <div class="grupa-unos">
-            <label>Detaljno:</label>
-            <textarea id="tekst_polje" rows="8" cols="40"></textarea>
-          </div>
-
-          <div class="grupa-unos">
-            <label>Mogucnost komentarisanja:</label>
-            <div class="radio-okvir">
-              <input id ="komentari_polje" type="radio" name="gender" value="da" checked> Da
-              <input type="radio" name="gender" value="ne"> Ne
-            </div>
-          </div>
-
-          <div class="grupa-unos">
-            <label>Drzava(dvoslovni kod):</label>
-            <input id="drzava_polje" type="text" name="ccode"  onblur="drzavaPozivniValidacija()"><br>
-          </div>
-
-          <div class="grupa-unos">
-            <label>Telefon:</label>
-            <input id="telefon_polje" type="text" name="telephone" value="" onblur="drzavaPozivniValidacija()"><br>
-          </div>
-
-          <input id="dodaj" class="dugme" type="submit" value="Dodaj">
-          <div class="cistimo-float"></div>
-        </form>
+          foreach ($rezultat as $korisnik) {
+            print "<tr>";
+            print "<td>".$korisnik['id']."</td>";
+            print "<td>".$korisnik['username']."</td>";
+            if($korisnik['admin']==1)   print "<td> Da </td>";
+            else print "<td> Ne </td>";
+            print "<td>".$korisnik['imeprezime']."</td>";
+            print "<td>".$korisnik['datumrodjenja']."</td>";
+            if($korisnik['admin']==1) print "<td></td>";
+            else print "<td><a href='panel.php?obrisi=".$korisnik['id']."'>Obrisi</a></td>";
+            print "</tr>";
+          }
+          print "</table>";
+         ?>
       </div>
 
     </div>

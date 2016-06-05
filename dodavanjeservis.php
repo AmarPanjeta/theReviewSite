@@ -1,16 +1,12 @@
 <?php
-  if(isset($_REQUEST['title']) && isset($_REQUEST['url']) && isset($_REQUEST['ccode']) && isset($_REQUEST['telephone']) && isset($_REQUEST['author'])){
-    if(!empty($_REQUEST['title']) && !empty($_REQUEST['url']) && !empty($_REQUEST['ccode']) && !empty($_REQUEST['telephone']) && !empty($_REQUEST['author'])){
-      $news= array(htmlentities($_REQUEST['title']),htmlentities($_REQUEST['url']),date('D M d Y H:i:s O'),htmlentities($_REQUEST['ccode']),htmlentities($_REQUEST['telephone']),htmlentities($_REQUEST['author']));
-      $file=fopen("data/news.csv","a");
-      if(fputcsv($file,$news)){
-        fclose($file);
-        echo "Uspjesno ste dodali novost";
-      }
-      else{
-        fclose($file);
-        echo "Dodavanje novosti nije uspjelo";
-      }
+  session_start();
+  if(isset($_REQUEST['naslov']) && isset($_REQUEST['url']) && isset($_REQUEST['tekst']) && isset($_REQUEST['komentari'])){
+    if(!empty($_REQUEST['naslov']) && !empty($_REQUEST['url']) && !empty($_REQUEST['tekst'])){
+      $veza = new PDO("mysql:dbname=spirala4;host=localhost;charset=utf8", "spirala4", "spirala4");
+      $veza->exec("set names utf8");
+      $rezultat = $veza->query("INSERT INTO novost SET autorid=".$_SESSION['id'].", naslov='".htmlentities($_REQUEST['naslov'])."',url='".$_REQUEST['url']."', tekst='".htmlentities($_REQUEST['tekst'])."', komentari=".$_REQUEST['komentari'].",datum='".date('Y-m-d H:i:s')."';");
+      if($rezultat) echo "Uspjesno ste dodali novost!";
+      else echo "Novost nije sacuvana.";
     }
     else echo "Niste ispunili sva polja!";
   }

@@ -1,6 +1,7 @@
 <?php
 session_start();
 if(isset($_POST['action']) && $_POST['action']==="Login"){
+  /*
   $file = fopen("data/users.txt","r");
   while(!feof($file)){
     $korisnik=fgetcsv($file);
@@ -13,7 +14,28 @@ if(isset($_POST['action']) && $_POST['action']==="Login"){
       }
     }
   }
-  fclose($file);
+  fclose($file);*/
+  $username = $_REQUEST['username'];
+      $veza = new PDO("mysql:dbname=spirala4;host=localhost;charset=utf8", "spirala4", "spirala4");
+      $veza->exec("set names utf8");
+      $upit = $veza ->query("SELECT id,username, password, admin from korisnik where username='".$username."'");
+      $rezultat = $upit -> fetch();
+      if($rezultat==NULL) print "Dati username ne postoji!";
+      else{
+          if(isset($_REQUEST['password'])){
+              if($rezultat['password']==md5($_REQUEST['password'])){
+                $_SESSION['user']=$_REQUEST['username'];
+                $_SESSION['id']=$rezultat['id'];
+                $_SESSION['admin']=$rezultat['admin'];
+                header('Location: ' . "index.php", true, 303);
+                die();
+              }
+              else print "Pogresan password";
+          }
+          else{
+            print "Niste unijeli password!";
+          }
+      }
 }
 if(isset($_GET['action']) && $_GET['action']==="logout"){
   session_destroy();

@@ -1,11 +1,16 @@
-<!DOCTYPE html>
 <?php
 session_start();
+if(!isset($_SESSION['user'])){
+  header('Location: ' . "index.php", true, 303);
+  die();
+}
+
  ?>
+
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Podstranica sa tabelom</title>
+    <title>Podstranica sa kontakt formom</title>
     <link rel="stylesheet" type="text/css" href="stil.css">
     <link href='https://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
@@ -19,6 +24,8 @@ session_start();
   -->
   </head>
   <body>
+
+
 <!--                     LOGO                     -->
     <div class="baza">
       <div class="most">
@@ -49,7 +56,7 @@ session_start();
             <a href="linkovi.php">Linkovi</a>
             <?php
               if(isset($_SESSION['user'])){
-                print '<a href="dodavanje.php?action=logout">Nova novost</a>';
+                print '<a href="dodavanje.php">Nova novost</a>';
                 print '<a href="mojenovosti.php">Moje novosti <span id="broj-novosti"></span></a>';
                 if($_SESSION['admin']==1) print '<a href="panel.php">Panel</a>';
                 else print '<a href="promjenasifre.php">Promjena sifre</a>';
@@ -62,99 +69,58 @@ session_start();
           </nav>
         </div>
 
-      <div class="glavni-citav">
-        <h1>Tabela</h1>
-        <table>
-          <tr>
-            <th>
-              Najcitanija kritika
-            </th>
-            <th>
-              Broj pregleda
-            </th>
-            <th>
-              Autor
-            </th>
-            <th>
-              Kategorija
-            </th>
-            <th>
-              Datum objave
-            </th>
-          </tr>
-          <tr>
-            <td>
-              <a href="http://www.jutarnji.hr/nova-knjiga-ante-tomica--uz-nevjerojatan-smisao-za-fabuliranje--vrijednost--romana-je-i-u-izbjegavanju-stereotipa-o-bogatasima-/1256499/">Kritika romana Ante Tomića, 'Veličanstveni Poskokovi'</a>
-            </td>
-            <td>
-              2015
-            </td>
-            <td>
-              Jagna Pogačnik
-            </td>
-            <td>
-              Proza
-            </td>
-            <td>
-              17.12.2014.
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <a href="http://www.nydailynews.com/entertainment/movies/citizen-kane-premieres-1941-article-1.2202132">‘Citizen Kane’ is superb: 1941 movie review</a>
+        <div class="filter-stranice">
+          <span>Opcije:</span>
+          <ul>
+            <li><a href="panel.php">Korisnici</a></li>
+            <li><a href="novikorisnik.php">Dodavanje korisnika</a></li>
+            <li><a href="panelnovosti.php">Novosti</a></li>
+            <li><a href="panelkomentari.php">Komentari</a></li>
+          </ul>
+        </div>
 
-            </td>
-            <td>
-              1941
-            </td>
-            <td>
-              Kate Cameron
-            </td>
-            <td>
-              Filmovi
-            </td>
-            <td>
-              2.5.1941
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <a href="http://www.sputnikmusic.com/review/2376/Morphine-Cure-for-Pain/">Morphine - Cure for Pain</a>
-            </td>
-            <td>
-              999
-            </td>
-            <td>
-              Andrew H.
-            </td>
-            <td>
-              Muzika
-            </td>
-            <td>
-              6.4.2005
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <a href="http://dactylreview.com/2011/01/10/pulp-by-charles-bukowski/">Pulp by Charles Bukowski</a>
-            </td>
-            <td>
-              994
-            </td>
-            <td>
-              Arthur Graham
-            </td>
-            <td>
-              Proza
-            </td>
-            <td>
-              10.1.2011
-            </td>
-          </tr>
-        </table>
+      <div class="glavni-citav autovisina">
+        <h1>Dodavanje korisnika</h1>
+        <h3 id="poruka">Poruka</h3>
+        <form class="forma-kontakt" action="dodavanjeservis.php" method="post">
+
+          <div class="grupa-unos">
+            <label>Username:</label>
+            <input id="username_polje" type="text" name="title" value=""><br>
+          </div>
+
+
+
+          <div class="grupa-unos">
+            <label>Ime i prezime</label>
+            <input id="imeprezime_polje" type="text" name="url" value=""><br>
+          </div>
+
+          <div class="grupa-unos">
+            <label>Datum rodjenja</label>
+            <input id="datum_polje" type="text" name="url" value="" placeholder="dd/mm/YYYY"><br>
+          </div>
+
+
+          <div class="grupa-unos">
+            <label>Password </label>
+            <input id="pw1_polje" type="password" name="pw1" value=""><br>
+          </div>
+
+          <div class="grupa-unos">
+            <label>Ponovite password</label>
+            <input id="pw2_polje" type="password" name="pw2" value=""><br>
+          </div>
+
+
+
+          <input id="dodaj" class="dugme" type="submit" value="Dodaj">
+          <div class="cistimo-float"></div>
+        </form>
       </div>
 
     </div>
+    <script src="js/novikorisnik.js"></script>
     <script src="js/ajaxkomentari.js"></script>
     <?php
     if(isset($_SESSION['id'])){
@@ -167,3 +133,5 @@ session_start();
      ?>
   </body>
 </html>
+
+<!-- onkeyup="telefonValidacija(this.value)"

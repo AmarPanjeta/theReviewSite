@@ -52,6 +52,9 @@ session_start();
             <?php
               if(isset($_SESSION['user'])){
                 print '<a href="dodavanje.php?action=logout">Nova novost</a>';
+                print '<a href="mojenovosti.php">Moje novosti <span id="broj-novosti"></span></a>';
+                if($_SESSION['admin']==1) print '<a href="panel.php">Panel</a>';
+                else print '<a href="promjenasifre.php">Promjena sifre</a>';
                 print '<a href="login.php?action=logout">Logout</a>';
               }
               else{
@@ -112,6 +115,15 @@ session_start();
       </div>
 
     </div>
-
+    <script src="js/ajaxkomentari.js"></script>
+    <?php
+    if(isset($_SESSION['id'])){
+      print "<script>";
+      print "window.setInterval(function(){
+        brojkomentara(".$_SESSION['id'].");
+      },350)";
+      print "</script>";
+    }
+     ?>
   </body>
 </html>
