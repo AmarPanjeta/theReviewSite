@@ -83,59 +83,6 @@ session_start();
 
 
   <div class="glavni-citav autovisina">
-    <?php
-      function poredjenjeDatuma($a,$b){
-        $t1 = strtotime($a[2]);
-        $t2 = strtotime($b[2]);
-        return $t2- $t1;
-      }
-
-      function poredjenjeNaslova($a,$b){
-        return strcmp($a[0],$b[0]);
-      }
-
-      if(file_exists ( "data/news.csv" )){
-
-
-      $file = fopen("data/news.csv","r");
-      $novosti = array();
-      while(!feof($file)){
-        if(!feof($file)){
-          $element = fgetcsv($file);
-          if($element[0]!='')$novosti[]=$element;
-        }
-      }
-      fclose($file);
-      if(isset($_REQUEST['sortiranje']) && $_REQUEST['sortiranje']=="abc") usort($novosti,"poredjenjeNaslova");
-      else usort($novosti,"poredjenjeDatuma");
-        $otvoreno=false;
-        for($i=0;$i<count($novosti);$i++){
-            if($i%3==0){
-              print '<div class="red">';
-              $otvoreno = true;
-            }
-            $date = new DateTime($novosti[$i][2]);
-            $datestring = $date->format('Y-m-d H:i:s');
-            $datestring = str_replace(" ","T",$datestring);
-            print  '<div id="clanak_'.$datestring.'" class="red-element">';
-            print    '<img src="'.$novosti[$i][1].'" alt="kritika" />';
-            print    '<p>';
-            print     $novosti[$i][0].' - '.$novosti[$i][5]; // Nedjelja navecer - B. Krsulovic
-            print    '</p>';
-            print    '<p class="vrijeme-objave">';
-            print    '</p>';
-            print  '</div>';
-
-            if($i%3==2){
-              print "</div>";
-              $otvoreno = false;
-            }
-        }
-        if($otvoreno){
-          print "</div>";
-        }
-      }
-     ?>
      <?php
         $veza = new PDO("mysql:dbname=spirala4;host=localhost;charset=utf8", "spirala4", "spirala4");
         $veza->exec("set names utf8");

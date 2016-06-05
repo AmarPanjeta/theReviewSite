@@ -1,23 +1,21 @@
 <?php
 session_start();
-if(!isset($_SESSION['user']) || !isset($_SESSION['admin']) || $_SESSION['admin']!=1){
+if(!isset($_SESSION['user'])){
   header('Location: ' . "index.php", true, 303);
   die();
 }
 
  ?>
 <?php
-  if(isset($_REQUEST['obrisi']) && $_REQUEST['obrisi']!=1){
+  if(isset($_REQUEST['id']) && is_numeric($_REQUEST['id'])){
     $veza = new PDO("mysql:dbname=spirala4;host=localhost;charset=utf8", "spirala4", "spirala4");
     $veza->exec("set names utf8");
-    $upitnovosti = $veza -> query("SELECT id, autorid FROM novost where autorid=".$_REQUEST['obrisi']);
-    $novosti=$upitnovosti->fetchAll();
-    foreach ($novosti as $novost) {
-      $upitbrisanjeodgovori = $veza -> query ("DELETE FROM komentar WHERE novostid=".$novost['id']." AND odgovornakomentar IS NOT NULL");
-      $upitbrisanjeokomentari = $veza -> query ("DELETE FROM komentar WHERE novostid=".$novost['id']." AND odgovornakomentar IS NULL");
-    }
-    $upitbrisanjenovosti = $veza -> query ("DELETE FROM novost WHERE autorid=".$_REQUEST['obrisi']);
-    $upitbrisanjekorisnik = $veza -> query ("DELETE FROM korisnik WHERE id=".$_REQUEST['obrisi']);
+    $upitkorisnik = $veza -> query("SELECT id, username, imeprezime, datumrodjenja from korisnik where id=".$_REQUEST['id']);
+    $korisnik = $upitkorisnik -> fetch();
+  }
+  else{
+    header('Location: ' . "index.php", true, 303);
+    die();
   }
  ?>
 <html>
@@ -81,52 +79,48 @@ if(!isset($_SESSION['user']) || !isset($_SESSION['admin']) || $_SESSION['admin']
              ?>
           </nav>
         </div>
-      <div class="filter-stranice">
-        <span>Opcije:</span>
-        <ul>
-          <li><a href="panel.php">Korisnici</a></li>
-          <li><a href="novikorisnik.php">Dodavanje korisnika</a></li>
-          <li><a href="panelnovosti.php">Novosti</a></li>
-          <li><a href="panelkomentari.php">Komentari</a></li>
-        </ul>
-      </div>
+
+        <div class="filter-stranice">
+          <span>Opcije:</span>
+          <ul>
+            <li><a href="panel.php">Korisnici</a></li>
+            <li><a href="novikorisnik.php">Dodavanje korisnika</a></li>
+            <li><a href="panelnovosti.php">Novosti</a></li>
+            <li><a href="panelkomentari.php">Komentari</a></li>
+          </ul>
+        </div>
+
       <div class="glavni-citav autovisina">
-        <h1>Admin panel</h1>
-        <h3>Korisnici </h3>
-        <?php
+        <h1>Izmjena korisnika</h1>
+        <h3 id="poruka">Poruka</h3>
+        <form class="forma-kontakt" action="dodavanjeservis.php" method="post">
 
-          print "<table>";
-          print "<tr>";
-          print "<th>ID</th>";
-          print "<th>Username</th>";
-          print "<th>Admin</th>";
-          print "<th>Ime i prezime</th>";
-          print "<th>Datum rodjenja</th>";
-          print "<th>Opcije</th>";
+          <div class="grupa-unos">
+            <label>Username:</label>
+            <input id="username_polje" type="text" name="title" value="<?php if(isset($korisnik)) print $korisnik['username']; ?>"><br>
+          </div>
 
-          print "</tr>";
-          $veza = new PDO("mysql:dbname=spirala4;host=localhost;charset=utf8", "spirala4", "spirala4");
-          $veza->exec("set names utf8");
-          $rezultat = $veza ->query("SELECT id,username, password, admin, imeprezime, datumrodjenja from korisnik");
 
-          foreach ($rezultat as $korisnik) {
-            print "<tr>";
-            print "<td>".$korisnik['id']."</td>";
-            print "<td>".$korisnik['username']."</td>";
-            if($korisnik['admin']==1)   print "<td> Da </td>";
-            else print "<td> Ne </td>";
-            print "<td>".$korisnik['imeprezime']."</td>";
-            print "<td>".$korisnik['datumrodjenja']."</td>";
-            if($korisnik['admin']==1) print "<td></td>";
-            else print "<td><a href='izmjenakorisnika.php?id=".$korisnik['id']."'>Izmjeni </a><br><a href='panel.php?obrisi=".$korisnik['id']."'>Obrisi</a></td>";
-            print "</tr>";
-          }
-          print "</table>";
-         ?>
+
+          <div class="grupa-unos">
+            <label>Ime i prezime</label>
+            <input id="imeprezime_polje" type="text" name="url" value="<?php if(isset($korisnik)) print $korisnik['imeprezime']; ?>"><br>
+          </div>
+
+          <div class="grupa-unos">
+            <label>Datum rodjenja</label>
+            <input id="datum_polje" type="text" name="url" value="<?php if(isset($korisnik)) print $korisnik['datumrodjenja']; ?>" placeholder="dd/mm/YYYY"><br>
+          </div>
+
+          <input id="korisnikid_polje" type="hidden" name="korisnikid" value="<?php if(isset($korisnik)) print $korisnik['id']; ?>">
+
+          <input id="izmjeni" class="dugme" type="submit" value="Izmjeni">
+          <div class="cistimo-float"></div>
+        </form>
       </div>
 
     </div>
-    <script src="validacijenovost.js"></script>
+    <script src="js/izmjenakorisnika.js"></script>
     <script src="js/ajaxkomentari.js"></script>
     <?php
     if(isset($_SESSION['id'])){
